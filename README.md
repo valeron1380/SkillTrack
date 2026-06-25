@@ -33,32 +33,37 @@ npm install
 npm run dev
 ```
 
-Создайте `.env` на основе `.env.example`:
+Файл `.env.example` уже содержит данные Supabase для проверки проекта. Для локального запуска достаточно скопировать его в `.env`:
 
-```env
-VITE_SUPABASE_URL=https://your-project.supabase.co
-VITE_SUPABASE_ANON_KEY=your-anon-key
+```bash
+copy .env.example .env
 ```
 
-## База данных
+После этого можно запускать проект. Создавать новую базу данных и выполнять SQL в Supabase SQL Editor не нужно: база и таблицы уже подготовлены.
 
-Откройте Supabase SQL Editor и выполните файл:
+## Тестовые аккаунты
 
 ```text
-supabase/schema.sql
+student:
+login: [test@gmail.co]
+password: [testtest]
+
+mentor:
+login: [mentor@gmail.com]
+password: [mentor1]
 ```
 
-В схеме включены таблицы, индексы, RLS-политики и функция `current_user_is_mentor()`, которая убирает рекурсию политик при проверке роли наставника.
+Если аккаунты менялись перед сдачей, актуальные данные нужно указать здесь.
 
-После регистрации пользователь получает роль `student`. Чтобы сделать аккаунт наставником, измените роль вручную в таблице `profiles`:
+## Основные страницы
 
-```sql
-update public.profiles
-set role = 'mentor'
-where email = 'mentor@mail.ru';
-```
+- `/login` - вход в аккаунт;
+- `/signup` - регистрация;
+- `/dashboard` - список навыков, статистика и журнал практики;
+- `/skills/:id` - подробная страница навыка с целями, практикой и проверкой наставника;
+- `/profile` - профиль пользователя.
 
-## Структура
+## Структура проекта
 
 ```text
 src/app          маршруты и состояние приложения
@@ -67,10 +72,11 @@ src/widgets      крупные блоки интерфейса
 src/features     пользовательские действия
 src/entities     модели и репозитории
 src/shared       общие API и утилиты
+supabase         SQL-схема проекта, оставлена для справки
 ```
 
-## Проверка
+## Проверка перед деплоем
 
 ```bash
 npm run build
-```
+```ц
